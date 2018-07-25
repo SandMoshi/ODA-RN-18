@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Navbar from './components/navbar/Navbar';
 import Fact from './components/fact/fact';
+import ProgressBar from './components/progressbar/progressbar';
 import facts from './json/facts';
 import { AdMobBanner, AdMobInterstitial } from 'expo';
 
@@ -24,9 +25,9 @@ export default class App extends React.Component {
   loadInterstitial(){
     AdMobInterstitial.setTestDeviceID("EMULATOR");
     //TEST ID
-    AdMobInterstitial.setAdUnitID("ca-app-pub-3940256099942544/1033173712");
+    AdMobInterstitial.setAdUnitID("ca-app-pub-3940256099942544/6300978111");
     //REAL ID
-    // AdMobInterstitial.setAdUnitID("");
+    // AdMobInterstitial.setAdUnitID("ca-app-pub-8922768677055340/2819934767");
 
     
     AdMobInterstitial.requestAdAsync();
@@ -34,7 +35,7 @@ export default class App extends React.Component {
     //USELESS EVENT LISTENERS
     AdMobInterstitial.addEventListener("interstitialDidLoad", () => console.log("interstitial Did Load"));
     AdMobInterstitial.addEventListener("interstitialDidFailToLoad", () =>
-      console.log("interstitialDid Fail To Load"));
+      console.log("interstitial Did Fail To Load"));
     AdMobInterstitial.addEventListener("interstitialDidOpen", () =>
       console.log("interstitial Did Open")
     );
@@ -90,6 +91,7 @@ export default class App extends React.Component {
           color="#D8315B"
           onPress={this.getNewFact}
         />
+        <ProgressBar />
         <AdMobBanner 
           style={styles.bottomBanner}
           bannerSize="smartBannerPortrait"
