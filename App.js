@@ -54,6 +54,10 @@ export default class App extends React.Component {
   }
 
   getNewFact(){
+
+    //Increase the XP
+    this.newFactRequested();
+
     //Increase Counter - for viewedFacts
     var counter = this.state.viewedFacts;
     counter++;
@@ -71,6 +75,10 @@ export default class App extends React.Component {
         newFact: facts[randomNum][2],
         viewedFacts: counter,
       });
+  }
+
+  newFactRequested(){
+    this.child.increaseXP();
   }
 
 
@@ -91,7 +99,7 @@ export default class App extends React.Component {
           color="#D8315B"
           onPress={this.getNewFact}
         />
-        <ProgressBar />
+        <ProgressBar onRef={ref => (this.child = ref)} />
         <AdMobBanner 
           style={styles.bottomBanner}
           bannerSize="smartBannerPortrait"
@@ -122,5 +130,8 @@ const styles = StyleSheet.create({
   bottomBanner: {
     position: "absolute",
     bottom: 0,
+  },
+  Button:{
+
   }
 });

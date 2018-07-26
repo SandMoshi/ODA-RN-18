@@ -1,6 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import { NativeModules , LayoutAnimation, StyleSheet, Text, View} from 'react-native';
 import { LinearGradient } from 'expo';
+
+const { UIManager } = NativeModules;
+
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export default class ProgressBar extends React.Component{
     constructor(props){
@@ -8,16 +13,61 @@ export default class ProgressBar extends React.Component{
 
         this.state={
             level: 1,
-            xp: 50,
-            barWidth: '50%',
+            xp: 0,
+            barWidth: '7%',
         }
+    }
+
+    componentDidMount(){
+        this.props.onRef(this)
+    }
+
+    componentWillUnmount() {
+        this.props.onRef(undefined)
     }
 
     componentWillMount(){
         
-    }
+    };
 
     componentDidUpdate(){
+    };
+
+    increaseXP(){
+        LayoutAnimation.easeInEaseOut();
+        //Every time this function runs, increase by xp 25%
+        var xp = this.state.xp;
+
+        xp += 25;
+        
+        //Check for level up
+        if(xp == 100){
+            this.increaseLevel();
+            setTimeout(() =>{
+                xp = 0;
+                this.setState({
+                    xp: xp,
+                    barWidth: '7%',
+                })
+            }, 1000)
+        }
+        
+        var newBarWidth = xp + '%';
+        
+        this.setState({
+            xp: xp,
+            barWidth: newBarWidth
+        })
+
+
+    }
+
+    increaseLevel(){
+        var level = this.state.level;
+        level++;
+        this.setState({
+            level: level,
+        })
     }
 
     render(){
@@ -59,7 +109,10 @@ const styles = StyleSheet.create({
     bar:{
         maxWidth: '92%',
         height: '50%',
-        borderRadius: 20,
+        borderTopLeftRadius: 20,
+        borderBottomLeftRadius: 20,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
         marginLeft: '4%',
     },
 })
