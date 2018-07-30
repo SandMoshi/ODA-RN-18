@@ -15,7 +15,7 @@ export default class Fact extends React.Component{
     
     render(){
         return(
-            <Text style={styles.text}>{this.props.newFactX}</Text>
+            <Text style={[styles.text , {color: this.props.color}]}>{this.props.newFactX}</Text>
         )
     }
 }
@@ -23,8 +23,13 @@ export default class Fact extends React.Component{
 const styles = StyleSheet.create({
     text: {
         width: '80%',
+        maxWidth: 250,
         textAlign: 'center',
-        position: 'absolute',
-        top: '30%',
+        marginBottom: '15%',
+        marginTop: '5%',
+        // position: 'absolute',
+        // top: '30%',
+        // color: 'white',
+        fontSize: 24,
     },
 })

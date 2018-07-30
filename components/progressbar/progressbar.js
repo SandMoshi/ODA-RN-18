@@ -96,15 +96,15 @@ export default class ProgressBar extends React.Component{
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: '90%',
         height: 95,
         position: 'absolute',
-        bottom: 100,
+        bottom: 60,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: 'red',
-        borderWidth: 3,
+        // borderColor: 'red',
+        // borderWidth: 3,
     },
     outline:{
         width: '85%',
