@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import Navbar from './components/navbar/Navbar';
 import Fact from './components/fact/fact';
+import CustomImage from './components/customImage/customImage';
 import ProgressBar from './components/progressbar/progressbar';
 import facts from './json/facts';
 import { AdMobBanner, AdMobInterstitial } from 'expo';
@@ -13,6 +14,41 @@ export default class App extends React.Component {
 
     this.getNewFact = this.getNewFact.bind(this);
     this.showNewImage = this.showNewImage.bind(this);
+    this.getNewImage = this.getNewImage.bind(this);
+
+    //Load all images
+    this.images = {
+      HA1 : require('./assets/FaceBoxes/HA/HA1.png'),
+      HA2 : require('./assets/FaceBoxes/HA/HA2.png'),
+      HA3 : require('./assets/FaceBoxes/HA/HA3.png'),
+      HA4 : require('./assets/FaceBoxes/HA/HA4.png'),
+      HA5 : require('./assets/FaceBoxes/HA/HA5.png'),
+      LI1 : require('./assets/FaceBoxes/LI/LI1.png'),
+      LI2 : require('./assets/FaceBoxes/LI/LI2.png'),
+      LI3 : require('./assets/FaceBoxes/LI/LI3.png'),
+      LI4 : require('./assets/FaceBoxes/LI/LI4.png'),
+      LI5 : require('./assets/FaceBoxes/LI/LI5.png'),
+      LO1 : require('./assets/FaceBoxes/LO/LO1.png'),
+      LO2 : require('./assets/FaceBoxes/LO/LO2.png'),
+      LO3 : require('./assets/FaceBoxes/LO/LO3.png'),
+      LO4 : require('./assets/FaceBoxes/LO/LO4.png'),
+      LO5 : require('./assets/FaceBoxes/LO/LO5.png'),
+      NI1 : require('./assets/FaceBoxes/NI/NI1.png'),
+      NI2 : require('./assets/FaceBoxes/NI/NI2.png'),
+      NI3 : require('./assets/FaceBoxes/NI/NI3.png'),
+      NI4 : require('./assets/FaceBoxes/NI/NI4.png'),
+      NI5 : require('./assets/FaceBoxes/NI/NI5.png'),
+      OD1 : require('./assets/FaceBoxes/OD/OD1.png'),
+      OD2 : require('./assets/FaceBoxes/OD/OD2.png'),
+      OD3 : require('./assets/FaceBoxes/OD/OD3.png'),
+      OD4 : require('./assets/FaceBoxes/OD/OD4.png'),
+      OD5 : require('./assets/FaceBoxes/OD/OD5.png'),
+      ZA1 : require('./assets/FaceBoxes/ZA/ZA1.png'),
+      ZA2 : require('./assets/FaceBoxes/ZA/ZA2.png'),
+      ZA3 : require('./assets/FaceBoxes/ZA/ZA3.png'),
+      ZA4 : require('./assets/FaceBoxes/ZA/ZA4.png'),
+      ZA5 : require('./assets/FaceBoxes/ZA/ZA5.png'),
+    }
 
     this.state = {
         newFact : null,
@@ -65,7 +101,7 @@ export default class App extends React.Component {
     if(this.state.showButton){ 
       //Since the button IS visible, it is okay to run our usual code ...
 
-      this.showNewImage()
+      this.showNewImage();
 
       //Increase the XP
       this.newFactRequested();
@@ -85,8 +121,11 @@ export default class App extends React.Component {
         var randomNum = Math.floor(Math.random() * Math.floor(max));
         this.setState({
           newFact: facts[randomNum][2],
+          currentFactObject: facts[randomNum], 
           viewedFacts: counter,
         });
+
+        this.getNewImage(facts[randomNum]);
     }
 
     // Since button is not visible, we don't run our usual code . . .
@@ -130,6 +169,17 @@ export default class App extends React.Component {
 
   }
 
+  getNewImage(currentFactObject){
+    //Determine the necessary path for the facebox image
+    var factType = currentFactObject[1];
+    var max = 5;
+    var RNG = Math.floor(Math.random() * Math.floor(max)) + 1 
+    var imageFile = factType + RNG;
+
+    this.setState({
+      boxImagePath: imageFile,
+    })
+  }
 
   bannerError(){
     console.log("There was an error with our ad!");
@@ -149,9 +199,14 @@ export default class App extends React.Component {
       var imageContent = null;
     }
     else{
+      var path2 = this.state.boxImagePath || 'OD1';
+      console.log(path2);
+      console.log(this.images);
+      console.log(Object.keys(this.images).length);
+      console.log(this.images[path2]);
       imageContent = 
-        <Image 
-          source={require('./assets/FaceBoxes/OD/OD1.png')}
+        <CustomImage 
+          path={this.images[path2]}
           style={styles.faceBox}
         />
     }
